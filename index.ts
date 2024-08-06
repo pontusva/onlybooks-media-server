@@ -2,14 +2,15 @@ import express from "express";
 import { createLibrary } from "./endpoints/libraries/createLibrary";
 import { uploadFile } from "./endpoints/misc/uploadFile";
 import { createUser } from "./endpoints/users/createUser";
+import multer from "multer";
 import cors from "cors";
-
+const upload = multer();
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 app.post("/api/libraries", createLibrary);
-app.post("/api/upload", uploadFile);
+app.post("/api/upload", upload.single("file"), uploadFile);
 app.post("/api/users", createUser);
 
 const port = 3000;

@@ -7,13 +7,20 @@ import dotnenv from "dotenv";
 dotnenv.config();
 
 export const uploadFile = async (req: Request, res: Response) => {
+  const { title, author, series, library, folder } = req.body;
+  const file = req.file; // Access the uploaded file from multer
+  console.log(file);
+  if (!file) {
+    return res.status(400).send("No file uploaded.");
+  }
+
   const form = new FormData();
-  form.append("title", "Wizard's First Rule");
-  form.append("author", "Terry Goodkind");
-  form.append("series", "Sword of Truth");
-  form.append("library", "1304adc5-55af-485c-8416-7fab78d238a6");
-  form.append("folder", "e7f451e6-d01b-4214-83ee-7a13a5fc51c0");
-  form.append("0", fs.createReadStream("Free_Test_Data_2MB_MP3.mp3"));
+  form.append("title", title);
+  form.append("author", author);
+  form.append("series", series);
+  form.append("library", library);
+  form.append("folder", folder);
+  form.append("file", file.buffer, file.originalname); // Append the file
 
   const headers = {
     Authorization: `Bearer ${process.env.TOKEN}`,
