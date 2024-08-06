@@ -3,9 +3,9 @@ import axios from "axios";
 import dotenv from "dotenv";
 
 dotenv.config();
-
+console.log(process.env.SERVER_PORT);
 export const createUser = async (req: Request, res: Response) => {
-  const { username, password, type } = req.body;
+  const { username, password, type = "user" } = req.body;
 
   const data = {
     username,
@@ -24,7 +24,7 @@ export const createUser = async (req: Request, res: Response) => {
 
   try {
     const response = await axios.post(
-      `http://localhost:${process.env.SERVER_PORT}/api/upload`,
+      `http://localhost:${process.env.SERVER_PORT}/api/users`,
       data,
       {
         headers: {
